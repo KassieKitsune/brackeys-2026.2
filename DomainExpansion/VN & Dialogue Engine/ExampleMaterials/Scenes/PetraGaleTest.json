@@ -1,0 +1,229 @@
+[
+	{
+		"character" : "Petra",
+		"expression" : "Neutral",
+		"h_position" : 0.2,
+		"autoscroll" : true
+	},
+	{
+		"character" : "Gale",
+		"expression" : "GaleNeutral",
+		"h_position" : 0.8,
+		
+		"autoscroll" : true
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Joy",
+		
+		"text" : "Hey Gale! Check this out!",
+		"syllables" : "Hey |Gale!| check |this |out!"
+	},
+	{
+		"character" : "Gale",
+		"expression" : "GaleHappy",
+		
+		"text" : "Yes love? What is it?",
+		"syllables" : "Yes |love?| what |is |it?"
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Neutral",
+		
+		"text" : "Look at this new experimental dialogue system!",
+		"syllables" : "Look |at |this |new |ex|peri|men|tal |dia|logue |sys|tem!"
+	},
+	{
+		"character" : "Gale",
+		"expression" : "GaleNeutral",
+		
+		"autoscroll" : true
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Joy",
+		
+		"text" : "Look what I can do!",
+		"syllables" : "Look |what |I |can |do!"
+	},
+	{
+		"character" : "Petra",
+		"h_position": 0.1,
+		"tween_length" : 0.1,
+		"flip" : true,
+	},
+	{
+		"character" : "Petra",
+		"h_position": 0.3,
+		"tween_length" : 0.1,
+		"flip" : true,
+	},
+	{
+		"character" : "Petra",
+		"h_position": 0.2,
+		"tween_length" : 0.1,
+		"flip" : true,
+	},
+	{
+		"character" : "Petra",
+		"h_position": 0.2,
+		"v_position" : 0.54,
+		"tween_length" : 0.01,
+		"flip" : true,
+	},
+	{
+		"character" : "Petra",
+		"h_position": 0.2,
+		"v_position" : 0.65,
+		"tween_length" : 0.1,
+		"flip" : true,
+	},
+	{
+		"character" : "Petra",
+		"h_position": 0.2,
+		"v_position" : 0.6,
+		"tween_length" : 0.1,
+		"flip" : true,
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Snark",
+		
+		"text" : "Pretty cool Huh?",
+		"syllables" : "Pre |tty |cool |huh? "
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Plead",
+		
+		"autoscroll" : true
+	},
+	{
+		"character" : "Gale",
+		"expression" : "Worry",
+		
+		"text" : "Does this new system support choices and branching paths?",
+		"syllables" : "Does |this |new |sys|tem |sup|port |choi|ces |and |branch|ing |paths?",
+		
+		"choices" : ["Of course it does!","I think so?"]
+	},
+	{
+		"begin_branch" : "Of course it does!",
+		
+		"character" : "Petra",
+		"expression" : "Snark",
+		
+		"autoscroll" : true
+	},
+	{
+		"character" : "Gale",
+		"expression" : "Neutral",
+		
+		"text" : "So it does.",
+		"syllables" : "So |it |does "
+		
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Snark",
+		
+		"autoscroll" : true
+	},
+	{
+		"character" : "Gale",
+		"expression" : "Happy",
+		
+		"text" : "I assume that we have your hard work to thank?",
+		"syllables" : "I |ass|ume |that |we |have |your |hard |work |to |thank?"
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Joy",
+		
+		"text" : "mhm",
+		"syllables" : "mhm"
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Sigh",
+		
+		"text" : "I worked really hard...",
+		"syllables" : "I |worked |really |hard|.|.|."
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Plead",
+		
+		"autoscroll" : true
+	},
+	{
+		"character" : "Gale",
+		"expression" : "Happy",
+		
+		"text" : "Wow, I am quite proud of you.",
+		"syllables" : "Wow, |I |am |quite |proud |of |you."
+	},
+	{
+		"begin_branch" : "I think so?",
+		
+		"character" : "Gale",
+		"expression" : "GaleHappy",
+		
+		"text" : "Oh, don't be silly,",
+		"syllables" : "Oh|don't|be|silly,"
+	},
+	{
+		"character" : "Gale",
+		"expression" : "GaleNeutral",
+		
+		"text" : "I know you don't think <3",
+		"syllables" : "I|know|you|don't |think |<3"
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Ouch",
+		
+		"autoscroll" : true
+	},
+	{
+		"merge_branches" : [],
+		
+		"character" : "Gale",
+		"expression" : "GaleNeutral",
+		
+		"text" : "I will admit, this system is interesting at least",
+		"syllables" : "I |will |ad|mit, |this |sys|tem |is |int|er|est|ing |at |least"
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Ouch",
+		
+		"text" : "Gale, Guess what!",
+		"syllables" : "Gale, |Guess |what!"
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Kiss",
+		"h_position" : 0.6,
+		"tween_length" : 0.2,
+		
+		"text" : "Mmmmwah!",
+		"syllables" : "Mm|mm|wah!"
+	},
+	{
+		"character" : "Petra",
+		"expression" : "Joy",
+		"h_position" : 0.5,
+		"tween_length" : 0.2,
+		
+		"text" : "I love you <3",
+		"syllables" : "I |love |you |<3"
+	},
+	{
+		"character" : "Gale",
+		"expression" : "Hearts",
+		
+		"text" : "I love you too, dork <3",
+		"syllables" : "I |love |you |too, |dork <3"
+	}
+]

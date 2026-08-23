@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://qt4v4wad6ffk"]
+
+[ext_resource type="Script" uid="uid://biyi50mi3fn6i" path="res://DomainExpansion/VN & Dialogue Engine/Autoloads/CharacterServer.gd" id="1_kf5uk"]
+
+[node name="CharacterServer" type="Node"]
+script = ExtResource("1_kf5uk")
+character_folder = "res://DomainExpansion/VN & Dialogue Engine/ExampleMaterials/Characters"
+default_expression = ""
+portrait_extensions = Array[String]([".png", ".svg", ".jpg", ".webp"])

@@ -1,0 +1,160 @@
+[gd_scene load_steps=4 format=3 uid="uid://n0ft2x1lm1n4"]
+
+[ext_resource type="Script" uid="uid://dayry13cvuogb" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueTextSampler.gd" id="1_5mu6s"]
+[ext_resource type="Script" uid="uid://ba5cms57ooghv" path="res://DomainExpansion/Classes/DialogueParser.gd" id="1_a82n4"]
+[ext_resource type="Script" uid="uid://bxr501unb1cg3" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueInput.gd" id="3_w45d1"]
+
+[node name="ScrollModeDemo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dialogue Text Scroll Styles"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="FixedHeader" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Fixed Scroll"
+autowrap_mode = 3
+
+[node name="FixedDescription" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+layout_mode = 2
+text = "each string takes the same amount of time to scroll through"
+autowrap_mode = 3
+
+[node name="FixedExample" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DialogueTextSampler" type="Node" parent="Panel/MarginContainer/VBoxContainer/FixedExample" node_paths=PackedStringArray("dialogue_source")]
+script = ExtResource("1_5mu6s")
+dialogue_source = NodePath("../../../../../DialogueParser")
+
+[node name="HSeparator3" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DynamicHeader" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dynamic Scroll"
+autowrap_mode = 3
+
+[node name="DynamicDescription" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+layout_mode = 2
+text = "shorter strings take less time to scroll through than longer ones"
+autowrap_mode = 3
+
+[node name="DynamicExample" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DialogueTextSampler2" type="Node" parent="Panel/MarginContainer/VBoxContainer/DynamicExample" node_paths=PackedStringArray("dialogue_source")]
+script = ExtResource("1_5mu6s")
+dialogue_source = NodePath("../../../../../DialogueParser")
+scroll_style = 1
+
+[node name="HSeparator2" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="WordHeader" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Word Scroll"
+autowrap_mode = 3
+
+[node name="WordDescription" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+layout_mode = 2
+text = "strings automatically broken up into words at runtime, scrolls thorugh word-by-word"
+autowrap_mode = 3
+
+[node name="WordExample" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DialogueTextSampler3" type="Node" parent="Panel/MarginContainer/VBoxContainer/WordExample" node_paths=PackedStringArray("dialogue_source")]
+script = ExtResource("1_5mu6s")
+dialogue_source = NodePath("../../../../../DialogueParser")
+scroll_style = 2
+
+[node name="HSeparator4" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SyllableHeadder" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Syllable Scroll"
+autowrap_mode = 3
+
+[node name="SyllableDescription" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+layout_mode = 2
+text = "strings manually broken up into syllables in the .json, scrolls through string syllable-by-syllable"
+autowrap_mode = 3
+
+[node name="SyllableExample" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DialogueTextSampler3" type="Node" parent="Panel/MarginContainer/VBoxContainer/SyllableExample" node_paths=PackedStringArray("dialogue_source")]
+script = ExtResource("1_5mu6s")
+dialogue_source = NodePath("../../../../../DialogueParser")
+scroll_style = 3
+
+[node name="HSeparator" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Instant" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Instant Scroll
+"
+autowrap_mode = 3
+
+[node name="InstantDescription" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+layout_mode = 2
+text = "entire string displayed instantly"
+autowrap_mode = 3
+
+[node name="InstantExample" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DialogueTextSampler4" type="Node" parent="Panel/MarginContainer/VBoxContainer/InstantExample" node_paths=PackedStringArray("dialogue_source")]
+script = ExtResource("1_5mu6s")
+dialogue_source = NodePath("../../../../../DialogueParser")
+scroll_style = 4
+
+[node name="DialogueParser" type="Node" parent="."]
+script = ExtResource("1_a82n4")
+repeat = true
+load_from_file = "res://DomainExpansion/VN & Dialogue Engine/ExampleMaterials/Scenes/Dialogue_ScrollMode_Demo.json"
+
+[node name="DialogueInput" type="Node" parent="." node_paths=PackedStringArray("dialogue_source", "monitor_displays")]
+script = ExtResource("3_w45d1")
+dialogue_source = NodePath("../DialogueParser")
+monitor_displays = [NodePath("../Panel/MarginContainer/VBoxContainer/FixedExample/DialogueTextSampler"), NodePath("../Panel/MarginContainer/VBoxContainer/DynamicExample/DialogueTextSampler2"), NodePath("../Panel/MarginContainer/VBoxContainer/WordExample/DialogueTextSampler3"), NodePath("../Panel/MarginContainer/VBoxContainer/WordExample/DialogueTextSampler3"), NodePath("../Panel/MarginContainer/VBoxContainer/InstantExample/DialogueTextSampler4")]

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cci2ve5nmvdps"]
+
+[ext_resource type="Script" uid="uid://ceoykftvuviwd" path="res://DomainExpansion/Autoloads/SoundManager.gd" id="1_1o7eq"]
+
+[node name="SoundManager" type="Node"]
+script = ExtResource("1_1o7eq")
+
+[node name="BackingTrack" type="AudioStreamPlayer" parent="."]
+bus = &"Music"

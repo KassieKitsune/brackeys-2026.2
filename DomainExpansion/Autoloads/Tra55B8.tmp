@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3 uid="uid://dgnpwqpdhcamm"]
+
+[ext_resource type="Script" path="res://DomainExpansion/Autoloads/Transition.gd" id="1_ssa4g"]
+[ext_resource type="Script" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueSpriteManager.gd" id="2_po5nn"]
+[ext_resource type="PackedScene" uid="uid://l8ho821u565k" path="res://DomainExpansion/VN & Dialogue Engine/Template Scenes/DialogueBox.tscn" id="3_ocvjk"]
+
+[sub_resource type="Animation" id="Animation_vwojp"]
+resource_name = "Fade"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tq36p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yhr2r"]
+_data = {
+"Fade": SubResource("Animation_vwojp"),
+"RESET": SubResource("Animation_tq36p")
+}
+
+[node name="Transitional Layer" type="CanvasLayer"]
+process_mode = 3
+layer = 5
+script = ExtResource("1_ssa4g")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_yhr2r")
+}
+
+[node name="PortraitHandler" type="Node2D" parent="." node_paths=PackedStringArray("dialogue_source")]
+script = ExtResource("2_po5nn")
+dialogue_source = NodePath("../DialogueBox/DialogueParser")
+tween_length = 0.1
+
+[node name="DialogueBox" parent="." instance=ExtResource("3_ocvjk")]
+offset_top = 504.0
+
+[editable path="DialogueBox"]

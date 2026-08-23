@@ -1,0 +1,291 @@
+[gd_scene load_steps=14 format=3 uid="uid://cydawaufcuxrl"]
+
+[ext_resource type="Script" path="res://DomainExpansion/VN & Dialogue Engine/Scripts/VisualNovelDialogue.gd" id="1_a57hd"]
+[ext_resource type="Script" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueSpriteManager.gd" id="1_nbvrx"]
+[ext_resource type="Theme" uid="uid://bcdkud251vvbr" path="res://DomainExpansion/VN & Dialogue Engine/Template Scenes/DialogueTheme.tres" id="2_8v7pj"]
+[ext_resource type="PackedScene" uid="uid://l8ho821u565k" path="res://DomainExpansion/VN & Dialogue Engine/Template Scenes/DialogueBox.tscn" id="2_lc2mf"]
+[ext_resource type="Script" path="res://DomainExpansion/VN & Dialogue Engine/Scripts/ChoiceBox.gd" id="3_0j3nl"]
+[ext_resource type="Script" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueInput.gd" id="3_sdvim"]
+[ext_resource type="Script" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueBackground.gd" id="3_sio8u"]
+[ext_resource type="FontFile" uid="uid://c74i6507gxiwy" path="res://Fonts/Silver.ttf" id="4_nrgrf"]
+[ext_resource type="FontFile" uid="uid://ybk8ihgs4acq" path="res://Fonts/LycheeSoda.ttf" id="5_ndq1v"]
+[ext_resource type="Script" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueLevelLoader.gd" id="9_f8rnn"]
+[ext_resource type="Script" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueAudioPlayer.gd" id="12_yxt28"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_53am1"]
+bg_color = Color(0.152941, 0.152941, 0.152941, 0.827451)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="GDScript" id="GDScript_jahe1"]
+script/source = "extends Node
+class_name DialogueParser
+
+#Node that takes a JSON file consisting of an array of dictionaries
+#Each dictionary contains a set of data that will be different per project needs
+#So this just needs to pass the dictionary to the scene that displays the dialogue
+
+@export var repeat : bool = false
+@export var auto_start : bool = false
+@export_file(\"*.json\") var load_from_file: String
+@export var backup_conversation: Array[Dictionary] = [{\"text\"=\"oops\"}]
+
+var parsed_conversation = []
+var parsed_translation = []
+var conditions : Array[String] = []
+var conversation_length = 0
+var seek_branch : bool = false
+var branch : String = \"\"
+var reading = -1
+var paused = false
+
+signal conversation_end
+signal line_read(line:int,linedata)
+signal conversation_signal(variables)
+
+# Called when the node enters the scene tree for the first time.
+
+func _ready():
+	grab_json(load_from_file)
+	for condition in DialogueServer.persistent_conditions:
+		inject_condition(condition)
+	if auto_start:
+		read()
+	pass # Replace with function body.
+
+func grab_json(path : String = load_from_file) :
+	var readFile = read_from_json()
+	if readFile :
+		parsed_conversation = readFile
+	else :
+		parsed_conversation = backup_conversation
+	
+	conversation_length = parsed_conversation.size()
+
+func read_from_json(path : String = load_from_file):
+	var rawFile = FileAccess.open(path,FileAccess.READ)
+	var rawText
+	var parsedText
+	if rawFile != null:
+		rawText = rawFile.get_as_text()
+		parsedText = JSON.parse_string(rawText)
+	if parsedText != null:
+		return parsedText
+	return null
+
+func read(index : int = reading + 1):
+	if paused : return null ##Just? just kill the function if it's paused????? DUH##
+	
+	if index >= parsed_conversation.size():
+		conversation_end.emit()
+		if !repeat :
+			paused = true
+			return null
+		else :
+			branch = \"\"
+			conditions = []
+			seek_branch = false
+			index = 0
+	##########SEEK THE CORRECT THING TO READ FIRST###########
+	
+	var line_branch = parsed_conversation[index].get(\"begin_branch\")
+	var line_merge = parsed_conversation[index].get(\"merge_branches\")
+	match seek_branch: 
+		false: 
+			if line_branch != null && line_branch != branch || line_merge != null:
+				while index < conversation_length-1: # seek through the dialogue until it finds the right branch or reaches the end of the file
+					if line_merge is Array:
+						if line_merge == [] || line_merge.has(branch):
+							break
+					index += 1
+					line_branch = parsed_conversation[index].get(\"begin_branch\")
+					line_merge = parsed_conversation[index].get(\"merge_branches\")
+		true: # if in a dialogue branch, check if the parsed_conversation[index]currently being read part of that branch
+			while index < conversation_length-1 && line_branch != branch: # seek through the dialogue until it finds the right branch or reaches the end of the file
+				index += 1
+				line_branch = parsed_conversation[index].get(\"begin_branch\")
+				line_merge = parsed_conversation[index].get(\"merge_branches\")
+			seek_branch = false
+	
+	#####THEN PROCESS WHAT'S ON THE NEW LINE, THE NEW LINE GOD DAMN IT#####
+	
+	var negative_conditions = parsed_conversation[index].get(\"negative_conditions\")
+	if negative_conditions is Dictionary:
+		for condition in negative_conditions.keys():
+			if !conditions.has(condition) && negative_conditions[condition] is Dictionary:
+				for key in negative_conditions[condition].keys():
+					parsed_conversation[index][key] = negative_conditions[condition][key]
+	
+	var positive_conditions = parsed_conversation[index].get(\"positive_conditions\")
+	if positive_conditions is Dictionary:
+		for condition in positive_conditions.keys():
+			if conditions.has(condition) && positive_conditions[condition] is Dictionary:
+				for key in positive_conditions[condition].keys():
+					parsed_conversation[index][key] = positive_conditions[condition][key]
+	print(conditions)
+	var line_signal = parsed_conversation[index].get(\"signal\")
+	if line_signal != null :
+		conversation_signal.emit(line_signal)
+	
+	var choices = parsed_conversation[index].get(\"choices\")
+	if choices != null:
+		paused = true
+	
+	var go_to = parsed_conversation[index].get(\"go_to\")
+	if go_to is int || go_to is float :
+		reading = go_to-1
+		seek_branch = false
+	else :
+		reading = index
+	
+	line_read.emit(index,parsed_conversation[index])
+	
+	#######CLOSE AND AUTOSCROLL AFTER EMITTING SIGNALS YOU FRUIT#######
+	var autoScroll = parsed_conversation[index].get(\"autoscroll\")
+	if autoScroll is bool:
+		if autoScroll:
+			read(index+1)
+		
+	var close = parsed_conversation[index].get(\"close\")
+	if close :
+		conversation_end.emit()
+	
+	return parsed_conversation[index]
+
+func inject_condition(cond : String):
+	conditions.append(cond)
+
+func retract_condition(cond : String):
+	while conditions.has(cond):
+		conditions.erase(cond)
+
+func make_choice(choiceString : String):
+	branch = choiceString
+	seek_branch = true
+	paused = false
+	pass
+
+func _process(delta):
+	if Input.is_action_just_pressed(\"debug_progress\") && !paused:
+		var rawRead = read()
+		if rawRead != null :
+			print(str(parsed_conversation.find(rawRead))+\":\"+str(rawRead))
+
+func _on_conversation_end():
+	print(\"--\")
+	pass # Replace with function body.
+"
+
+[node name="VisualNovelDialogue" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_a57hd")
+conversation_file = "res://DomainExpansion/VN & Dialogue Engine/ExampleMaterials/Scenes/PetraGaleTest.json"
+next_scene = "FILLER"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_8v7pj")
+
+[node name="DialogueBackground" type="TextureRect" parent="Control" node_paths=PackedStringArray("dialogue_source")]
+show_behind_parent = true
+z_index = -10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+script = ExtResource("3_sio8u")
+dialogue_source = NodePath("../../DialogueParser")
+
+[node name="DialogueSpriteManager" type="Node2D" parent="Control"]
+show_behind_parent = true
+script = ExtResource("1_nbvrx")
+sprite_scale = Vector2(2, 2)
+sprite_origin = Vector2(0.5, 0.6)
+unfocused_modulate = Color(0.627451, 0.627451, 0.627451, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Gap" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+alignment = 1
+
+[node name="ChoiceContainer" type="VBoxContainer" parent="Control/VBoxContainer/Gap" node_paths=PackedStringArray("text_dependency", "dialogue_source")]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+alignment = 2
+script = ExtResource("3_0j3nl")
+text_dependency = NodePath("../../DialogueBox/MarginContainer/VBoxContainer/MarginContainer/Speech")
+dialogue_source = NodePath("../../../../DialogueParser")
+
+[node name="DialogueBox" parent="Control/VBoxContainer" instance=ExtResource("2_lc2mf")]
+layout_mode = 2
+
+[node name="NameTag" parent="Control/VBoxContainer/DialogueBox/MarginContainer/VBoxContainer/Control" index="0"]
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("5_ndq1v")
+
+[node name="DialogueTextSampler" parent="Control/VBoxContainer/DialogueBox/MarginContainer/VBoxContainer/Control/NameTag" index="0" node_paths=PackedStringArray("dialogue_source")]
+dialogue_source = NodePath("../../../../../../../../DialogueParser")
+
+[node name="Panel" parent="Control/VBoxContainer/DialogueBox/MarginContainer/VBoxContainer/MarginContainer" index="0"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_53am1")
+
+[node name="Speech" parent="Control/VBoxContainer/DialogueBox/MarginContainer/VBoxContainer/MarginContainer" index="1"]
+theme_override_fonts/normal_font = ExtResource("4_nrgrf")
+theme_override_fonts/bold_font = ExtResource("4_nrgrf")
+theme_override_fonts/italics_font = ExtResource("4_nrgrf")
+theme_override_fonts/bold_italics_font = ExtResource("4_nrgrf")
+theme_override_fonts/mono_font = ExtResource("4_nrgrf")
+text = ""
+
+[node name="DialogueTextSampler" parent="Control/VBoxContainer/DialogueBox/MarginContainer/VBoxContainer/MarginContainer/Speech" index="1" node_paths=PackedStringArray("dialogue_source")]
+dialogue_source = NodePath("../../../../../../../../DialogueParser")
+translate = true
+scroll_style = 1
+base_length = 180
+
+[node name="DialogueInput" type="Node" parent="." node_paths=PackedStringArray("monitor_displays")]
+script = ExtResource("3_sdvim")
+min_wait = 0.2
+monitor_displays = [NodePath("../Control/VBoxContainer/DialogueBox/MarginContainer/VBoxContainer/MarginContainer/Speech/DialogueTextSampler")]
+
+[node name="DialogueParser" type="Node" parent="."]
+unique_name_in_owner = true
+script = SubResource("GDScript_jahe1")
+
+[node name="DialogueAudioPlayer" type="Node" parent="."]
+script = ExtResource("12_yxt28")
+
+[node name="DialogueLevelLoader" type="Node" parent="." node_paths=PackedStringArray("dialogue_source")]
+script = ExtResource("9_f8rnn")
+dialogue_source = NodePath("../DialogueParser")
+level_folder = "res://Levels/Climbs"
+
+[editable path="Control/VBoxContainer/DialogueBox"]

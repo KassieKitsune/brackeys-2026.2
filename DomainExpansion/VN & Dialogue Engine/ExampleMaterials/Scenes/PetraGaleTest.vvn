@@ -1,0 +1,52 @@
+- #Petra !Neutral @(0.2,y) ~~
+- #Gale !GaleNeutral @(0.8,y) ~~
+- #Petra!Joy :Hey |Gale! |check |this |out!
+- #Gale !GaleHappy :Yes |love? |What |is |it?
+- #Petra !Neutral :Look |at |this |new |ex|peri|men|tal |dia|logue |sys|tem!
+- #Gale !GaleNeutral~~
+- #Petra !Joy:Look |what |I |can |do!
+- #Petra @(0.1,y)^0.1??
+- #Petra @(0.3,y)^0.1??
+- #Petra @(0.2,y)^0.1??
+- #Petra @(0.2,0.54)^0.1??
+- #Petra @(0.2,0.65)^0.1??
+- #Petra @(0.2,0.6)^0.1??
+- #Petra!Snark :Pre|tty |cool |huh?	
+- #Petra!Plead~~	
+- #Gale!Worry :Does |this |new |sys|tem |sup|port |choi|ces |and |branch|ing |paths?
+		<Of course it does!<
+		<I think so?<
+	
+- >Of course it does!>#Petra!Snark~~
+- #Gale!Neutral : So |it |does 	
+- #Petra!Snark~~
+- #Gale!Happy: I |ass|ume |that |we |have |your |hard |work |to |thank?
+- #Petra!Joy
+	:mhm
+- #Petra!Sigh
+	:I |worked |really |hard|.|.|.
+- #Petra!Plead~~
+- #Gale !Happy
+	:Wow |I |am |quite |proud |of |you.
+
+-`id or index of a line to go to>I think so?> #Gale!GaleHappy
+	:Oh| don't| be| silly
+- #Gale!GaleNeutral
+	:I| know| you| don't |think |<3
+- #Petra!Ouch~time loop~
+
+- >*>#Gale!GaleNeutral
+	:I |will |ad|mit |this |sys|tem |is |int|er|est|ing |at |least
+- #Petra!Ouch
+	:Gale |Guess |what!
+- #Petra!Kiss @(0.6,y)^0.2
+	:Mm|mm|wah!
+- #Petra!Joy @(0.5,y)^0.2
+	:I |love |you |<3
+- #Gale!Hearts
+	:I |love |you |too |dork <3
+
+-`id #Shibunbus{"json":"example","nesting":{}}:flurm 
+	{"some game specific data":"bungus"} =NextScene=
+	bipus+;:crunch
+	bipus-;~id or index of a line to go to~

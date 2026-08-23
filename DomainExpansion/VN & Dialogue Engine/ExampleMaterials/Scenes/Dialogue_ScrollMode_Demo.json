@@ -1,0 +1,15 @@
+[
+	{
+		"text" : "Lorem ipsum.",
+		"syllables" : "lo|rem_|ip|sum"
+	},
+	
+	{
+		"text" : "Lorem ipsum dolor sit amet...",
+		"syllables" : "lo|rem_|ip|sum_|dol|or_|sit_|am|et..."
+	},
+	{
+		"text" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at ornare sapien, quis vestibulum.",
+		"syllables" : "lo|rem_|ip|sum_|dol|or_|sit_|am|et,_|con|sec|tet|ur_|ad|ipi|sci|ing_|elit._|Mae|cen|as_|at_|orn|are|sapien,_|quis_|vest|ibu|lum."
+	}
+]

@@ -1,0 +1,81 @@
+[gd_scene load_steps=5 format=3 uid="uid://dm771qkrfkl8l"]
+
+[ext_resource type="Script" uid="uid://cj528vkgxpgcq" path="res://DomainExpansion/VN & Dialogue Engine/Template Scenes/VisualNovelHistoryHistory.gd" id="1_xmvxf"]
+[ext_resource type="FontFile" uid="uid://bpep8wyeabhcx" path="res://Fonts/FontEnd/EnterCommand-Bold.ttf" id="2_0sqxs"]
+[ext_resource type="FontFile" uid="uid://bxby05lkwa4r2" path="res://Fonts/FontEnd/EnterCommand.ttf" id="2_k4ckw"]
+[ext_resource type="FontFile" uid="uid://di2n7o2rd6bip" path="res://Fonts/FontEnd/EnterCommand-Italic.ttf" id="3_h4p0q"]
+
+[node name="VNHistoryLayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xmvxf")
+
+[node name="Backing" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.160784, 0.160784, 0.160784, 0.784314)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="EntryContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/EntryContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="XButton" type="Button" parent="MarginContainer/EntryContainer/Header"]
+layout_mode = 2
+text = "X"
+
+[node name="EntryScroll" type="ScrollContainer" parent="MarginContainer/EntryContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="EntryList" type="VBoxContainer" parent="MarginContainer/EntryContainer/EntryScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Entry" type="HBoxContainer" parent="MarginContainer/EntryContainer/EntryScroll/EntryList"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Speaker" type="Label" parent="MarginContainer/EntryContainer/EntryScroll/EntryList/Entry"]
+layout_mode = 2
+horizontal_alignment = 2
+
+[node name="Sep" type="VSeparator" parent="MarginContainer/EntryContainer/EntryScroll/EntryList/Entry"]
+layout_mode = 2
+
+[node name="Text" type="RichTextLabel" parent="MarginContainer/EntryContainer/EntryScroll/EntryList/Entry"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = ExtResource("2_k4ckw")
+theme_override_fonts/italics_font = ExtResource("3_h4p0q")
+theme_override_fonts/bold_font = ExtResource("2_0sqxs")
+bbcode_enabled = true
+text = "DIALOGUE"
+fit_content = true
+
+[connection signal="pressed" from="MarginContainer/EntryContainer/Header/XButton" to="." method="_on_x_button_pressed"]

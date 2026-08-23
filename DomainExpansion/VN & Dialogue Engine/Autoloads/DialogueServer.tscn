@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bw8cot3wvnr42"]
+
+[ext_resource type="Script" uid="uid://dhedmuis32eiq" path="res://DomainExpansion/VN & Dialogue Engine/Autoloads/DialogueServer.gd" id="1_7qvfa"]
+[ext_resource type="PackedScene" uid="uid://cydawaufcuxrl" path="res://DomainExpansion/VN & Dialogue Engine/Template Scenes/VisualNovelDialogue.tscn" id="2_h6ofu"]
+
+[node name="DialogueServer" type="Node"]
+script = ExtResource("1_7qvfa")
+dialogue_scene = ExtResource("2_h6ofu")
+conversation_folder = "res://DomainExpansion/VN & Dialogue Engine/ExampleMaterials/Scenes"
+background_folder = "res://TestMaterials"
+conversation_extensions = Array[String]([".vvn", ".json"])

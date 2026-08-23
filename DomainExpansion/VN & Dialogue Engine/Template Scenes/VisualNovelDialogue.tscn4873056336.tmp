@@ -1,0 +1,175 @@
+[gd_scene load_steps=15 format=3 uid="uid://cydawaufcuxrl"]
+
+[ext_resource type="Script" uid="uid://dhuc1jorw1bfn" path="res://DomainExpansion/VN & Dialogue Engine/Scripts/VisualNovelDialogue.gd" id="1_a57hd"]
+[ext_resource type="Script" uid="uid://cyx5fnc1lru0u" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueSpriteManager.gd" id="1_nbvrx"]
+[ext_resource type="Theme" uid="uid://bcdkud251vvbr" path="res://DomainExpansion/VN & Dialogue Engine/Template Scenes/DialogueTheme.tres" id="2_8v7pj"]
+[ext_resource type="Script" uid="uid://dvxvrx0h0welo" path="res://DomainExpansion/VN & Dialogue Engine/Scripts/ChoiceBox.gd" id="3_0j3nl"]
+[ext_resource type="Script" uid="uid://bxr501unb1cg3" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueInput.gd" id="3_sdvim"]
+[ext_resource type="Script" uid="uid://cxd6x452my6j3" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueBackground.gd" id="3_sio8u"]
+[ext_resource type="Script" uid="uid://c8xa3baiwuv08" path="res://DomainExpansion/VN & Dialogue Engine/Template Scenes/SkipButton.gd" id="5_fcyjo"]
+[ext_resource type="Script" uid="uid://dayry13cvuogb" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueTextSampler.gd" id="7_1aq31"]
+[ext_resource type="FontFile" uid="uid://g4m7vht006j6" path="res://Fonts/FontEnd/DigitalDisco-Thin.ttf" id="7_enand"]
+[ext_resource type="PackedScene" uid="uid://dm771qkrfkl8l" path="res://DomainExpansion/VN & Dialogue Engine/Template Scenes/VisualNovelHistory.tscn" id="9_axelc"]
+[ext_resource type="FontFile" uid="uid://bxby05lkwa4r2" path="res://Fonts/FontEnd/EnterCommand.ttf" id="9_enand"]
+[ext_resource type="Script" uid="uid://543h28mp7mpv" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueLevelLoader.gd" id="9_f8rnn"]
+[ext_resource type="Script" uid="uid://c6fwoweiftwut" path="res://DomainExpansion/VN & Dialogue Engine/Classes/VNDialogueParser.gd" id="11_y7mqm"]
+[ext_resource type="Script" uid="uid://bu2v8ddbdmeaa" path="res://DomainExpansion/VN & Dialogue Engine/Classes/DialogueAudioPlayer.gd" id="12_yxt28"]
+
+[node name="VisualNovelDialogue" type="CanvasLayer" node_paths=PackedStringArray("hideable_nodes")]
+script = ExtResource("1_a57hd")
+conversation_file = "res://Dialogue/Banter2.vvn"
+next_scene = "FILLER"
+hideable_nodes = [NodePath("Control/VBoxContainer")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("2_8v7pj")
+
+[node name="DialogueBackground" type="TextureRect" parent="Control"]
+show_behind_parent = true
+z_index = -10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+script = ExtResource("3_sio8u")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Buttons" type="HBoxContainer" parent="Control/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="HistoryToggle" type="Button" parent="Control/VBoxContainer/MarginContainer/Buttons"]
+layout_mode = 2
+text = "History
+"
+
+[node name="HideToggle" type="Button" parent="Control/VBoxContainer/MarginContainer/Buttons"]
+visible = false
+layout_mode = 2
+text = "Hide"
+
+[node name="Control" type="Control" parent="Control/VBoxContainer/MarginContainer/Buttons"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AutoToggle" type="Button" parent="Control/VBoxContainer/MarginContainer/Buttons"]
+layout_mode = 2
+toggle_mode = true
+text = "Auto"
+
+[node name="SkipButton" type="Button" parent="Control/VBoxContainer/MarginContainer/Buttons"]
+layout_mode = 2
+text = "Skip"
+script = ExtResource("5_fcyjo")
+
+[node name="Gap" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+alignment = 1
+
+[node name="ChoiceContainer" type="VBoxContainer" parent="Control/VBoxContainer/Gap" node_paths=PackedStringArray("dialogue_source")]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+alignment = 2
+script = ExtResource("3_0j3nl")
+dialogue_source = NodePath("../../../../DialogueParser")
+
+[node name="TextBox" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/TextBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="DialogueSpriteManager" type="ReferenceRect" parent="Control/VBoxContainer/TextBox/VBoxContainer"]
+show_behind_parent = true
+layout_mode = 2
+script = ExtResource("1_nbvrx")
+tween_length = 0.25
+sprite_scale = null
+sprite_origin = Vector2(0.5, 0.6)
+unfocused_modulate = null
+
+[node name="NameTag" type="Label" parent="Control/VBoxContainer/TextBox/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("7_enand")
+text = "NAME"
+vertical_alignment = 2
+
+[node name="DialogueTextSampler" type="Node" parent="Control/VBoxContainer/TextBox/VBoxContainer/NameTag" node_paths=PackedStringArray("dialogue_source")]
+script = ExtResource("7_1aq31")
+dialogue_source = NodePath("../../../../../../DialogueParser")
+text_key = "character"
+scroll_style = 4
+
+[node name="Speech" type="RichTextLabel" parent="Control/VBoxContainer/TextBox/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/line_separation = 0
+theme_override_fonts/normal_font = ExtResource("9_enand")
+bbcode_enabled = true
+text = "Hello World"
+fit_content = true
+
+[node name="DialogueTextSampler" type="Node" parent="Control/VBoxContainer/TextBox/VBoxContainer/Speech" node_paths=PackedStringArray("dialogue_source")]
+script = ExtResource("7_1aq31")
+dialogue_source = NodePath("../../../../../../DialogueParser")
+scroll_style = 1
+syllable_pause_length = 0.6
+
+[node name="VNHistoryLayer" parent="Control" node_paths=PackedStringArray("dialogue_source") instance=ExtResource("9_axelc")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+dialogue_source = NodePath("../../DialogueParser")
+
+[node name="DialogueInput" type="Node" parent="." node_paths=PackedStringArray("monitor_displays")]
+script = ExtResource("3_sdvim")
+min_wait = 0.2
+monitor_displays = [NodePath("../Control/VBoxContainer/TextBox/VBoxContainer/Speech/DialogueTextSampler")]
+
+[node name="DialogueParser" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("11_y7mqm")
+load_from_file = "res://DomainExpansion/VN & Dialogue Engine/ExampleMaterials/Scenes/PetraGaleTest.vvn"
+
+[node name="DialogueAudioPlayer" type="Node" parent="."]
+script = ExtResource("12_yxt28")
+
+[node name="DialogueLevelLoader" type="Node" parent="."]
+script = ExtResource("9_f8rnn")
+level_folder = "res://Levels/Climbs"
+
+[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/Buttons/HistoryToggle" to="Control/VNHistoryLayer" method="_on_history_toggle_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/Buttons/HideToggle" to="." method="_on_hide_toggle_pressed"]
+[connection signal="toggled" from="Control/VBoxContainer/MarginContainer/Buttons/AutoToggle" to="DialogueInput" method="_on_auto_toggle_toggled"]
+[connection signal="scroll_finished" from="Control/VBoxContainer/TextBox/VBoxContainer/Speech/DialogueTextSampler" to="." method="_on_line_read"]
+[connection signal="line_read" from="DialogueParser" to="DialogueInput" method="_on_dialogue_parser_line_read"]
