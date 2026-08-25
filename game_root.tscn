@@ -5,8 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://b23f04xxb8for" path="res://Boids/area_2d_boid.tscn" id="2_lkrbl"]
 [ext_resource type="Script" uid="uid://c3mmireb2mw6p" path="res://object_spawner.gd" id="2_wd1uf"]
 [ext_resource type="Script" uid="uid://bybpqbacpjdue" path="res://Debug/fps.gd" id="3_bxsma"]
+[ext_resource type="Script" uid="uid://c8vys066lbq1q" path="res://magnifier.gd" id="4_0o8ui"]
+[ext_resource type="Texture2D" uid="uid://8y71bsglk0sx" path="res://icon.svg" id="4_8gxew"]
+[ext_resource type="Shader" uid="uid://5a8cp38haq1q" path="res://Magnify.gdshader" id="4_ledqy"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xf5qd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8gxew"]
+shader = ExtResource("4_ledqy")
+shader_parameter/magFactor = 3.0
 
 [node name="GameRoot" type="Node" unique_id=1292277931]
 process_mode = 3
@@ -52,6 +59,12 @@ scene = ExtResource("2_lkrbl")
 metadata/_custom_type_script = "uid://deimna64qrjwd"
 
 [node name="EffectRoot" type="Node2D" parent="WorldRoot" unique_id=155809367]
+
+[node name="Magnifier" type="Sprite2D" parent="WorldRoot/EffectRoot" unique_id=122585867]
+material = SubResource("ShaderMaterial_8gxew")
+position = Vector2(1, 12)
+texture = ExtResource("4_8gxew")
+script = ExtResource("4_0o8ui")
 
 [node name="HudLayer" type="CanvasLayer" parent="." unique_id=903087891]
 process_mode = 3

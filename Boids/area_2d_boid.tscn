@@ -59,7 +59,6 @@ shape = SubResource("CircleShape2D_xf5qd")
 debug_color = Color(0.99517936, 0, 0.2175209, 0.41960785)
 
 [node name="Vision" type="Area2D" parent="." unique_id=1235618481]
-visible = false
 collision_layer = 0
 collision_mask = 2
 monitorable = false
@@ -68,12 +67,16 @@ monitorable = false
 shape = SubResource("CircleShape2D_vhmak")
 
 [node name="Collider" type="Area2D" parent="." unique_id=1368482041]
+collision_layer = 0
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collider" unique_id=1737856194]
 shape = SubResource("CircleShape2D_fesfm")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="area_entered" from="Vision" to="." method="_on_vision_area_entered"]
 [connection signal="area_exited" from="Vision" to="." method="_on_vision_area_exited"]
 [connection signal="body_entered" from="Collider" to="." method="_on_collider_body_entered"]

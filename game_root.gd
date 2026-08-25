@@ -8,6 +8,7 @@ extends Node
 @onready var transition_root: Control = $TransitionLayer/TransitionRoot
 @onready var debug_root: Control = $DebugLayer/DebugRoot
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if OS.is_debug_build() :

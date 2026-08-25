@@ -4,6 +4,7 @@ class_name AreaBoid
 var velocity : Vector2 = Vector2.ZERO
 var flock: Array[AreaBoid] = []
 var touching : Array [AreaBoid] = []
+var mouse_hovered : bool = false
 
 @onready var rays: Array[Node] = $Rays.get_children()
 @onready var ray_0: RayCast2D = $Rays/Ray0
@@ -16,9 +17,9 @@ var touch_center : Vector2 = Vector2.ZERO
 
 @export var debug : bool = false
 
-@export var coherence : float = 0.5
-@export var separation : float = 0.5
-@export var alignment : float = 0.5
+@export var coherence : float = 1
+@export var separation : float = 1
+@export var alignment : float = 1
 
 @export var bias_to : float = 0 # BiasDirection
 @export var bias : float = 0 # Strength of Bias
@@ -29,7 +30,7 @@ var touch_center : Vector2 = Vector2.ZERO
 @export var turning_radius : float = PI/2
 
 var process_frame : int = 1
-
+var deposit 
 func _ready() -> void:
 	flock.append(self)
 	direction = Vector2.from_angle(randf_range(0,TAU))
@@ -52,7 +53,7 @@ func _process(delta: float) -> void:
 			target_direction -= separation_direction*separation*PI
 			#target_direction -= global_position.direction_to(touch_center)*separation
 	
-	direction = direction.move_toward(target_direction,delta)
+	direction = direction.move_toward(target_direction,delta*10)
 	#direction = target_direction
 	velocity = velocity.move_toward(direction*max_speed,accelleration*delta)
 	
@@ -70,6 +71,8 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw():
+	if mouse_hovered:
+		draw_circle(Vector2.ZERO,16,Color.LIGHT_CORAL)
 	if debug:
 		draw_line(Vector2.ZERO,global_position-flock_center,Color.AQUA)
 
@@ -130,4 +133,14 @@ func _on_touch_leave(neighbour:AreaBoid):
 
 func _on_collider_body_entered(body: Node2D) -> void:
 	velocity = -velocity
+	pass # Replace with function body.
+
+
+func _on_mouse_entered() -> void:
+	mouse_hovered = true
+	pass # Replace with function body.
+
+
+func _on_mouse_exited() -> void:
+	mouse_hovered = false
 	pass # Replace with function body.
