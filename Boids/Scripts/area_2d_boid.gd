@@ -72,7 +72,7 @@ func _process(delta: float) -> void:
 
 func _draw():
 	if mouse_hovered:
-		draw_circle(Vector2.ZERO,16,Color.LIGHT_CORAL)
+		draw_circle(Vector2.ZERO,16,Color.CRIMSON)
 	if debug:
 		draw_line(Vector2.ZERO,global_position-flock_center,Color.AQUA)
 

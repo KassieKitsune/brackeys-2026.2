@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-ControlsManager="*uid://btkh6rbquqsws"
-Fox="*uid://cmv7kyjo8ugqg"
+ControlsManager="uid://btkh6rbquqsws"
+Fox="uid://cmv7kyjo8ugqg"
 SoundManager="*uid://cci2ve5nmvdps"
 Transition="*uid://dgnpwqpdhcamm"
 CharacterServer="*uid://qt4v4wad6ffk"
