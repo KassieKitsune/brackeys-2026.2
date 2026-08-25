@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dgnpwqpdhcamm"]
+[gd_scene format=3 uid="uid://dgnpwqpdhcamm"]
 
 [ext_resource type="Script" uid="uid://blrjd8hvn7pg6" path="res://DomainExpansion/Autoloads/Transition.gd" id="1_ssa4g"]
 
@@ -39,13 +39,15 @@ _data = {
 &"RESET": SubResource("Animation_tq36p")
 }
 
-[node name="Transitional Layer" type="CanvasLayer"]
+[node name="Transitional Layer" type="Control" unique_id=594535118]
 process_mode = 3
-layer = 5
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_ssa4g")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1313126761]
 modulate = Color(1, 1, 1, 0)
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -54,7 +56,5 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_yhr2r")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=829623391]
+libraries/ = SubResource("AnimationLibrary_yhr2r")

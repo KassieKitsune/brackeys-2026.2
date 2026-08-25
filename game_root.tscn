@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://py4pa0e3h5br"]
+
+[ext_resource type="Script" uid="uid://bu6um5o1lep5d" path="res://game_root.gd" id="1_pjpa4"]
+[ext_resource type="PackedScene" uid="uid://dgnpwqpdhcamm" path="res://DomainExpansion/Autoloads/Transition.tscn" id="2_bxsma"]
+[ext_resource type="PackedScene" uid="uid://b23f04xxb8for" path="res://Boids/area_2d_boid.tscn" id="2_lkrbl"]
+[ext_resource type="Script" uid="uid://c3mmireb2mw6p" path="res://object_spawner.gd" id="2_wd1uf"]
+[ext_resource type="Script" uid="uid://bybpqbacpjdue" path="res://Debug/fps.gd" id="3_bxsma"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xf5qd"]
+
+[node name="GameRoot" type="Node" unique_id=1292277931]
+process_mode = 3
+script = ExtResource("1_pjpa4")
+
+[node name="Systems" type="Node" parent="." unique_id=1525197690]
+
+[node name="WorldRoot" type="Node2D" parent="." unique_id=1036368480]
+process_mode = 1
+
+[node name="LevelRoot" type="Node2D" parent="WorldRoot" unique_id=1867800191]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="WorldRoot/LevelRoot" unique_id=824195812]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldRoot/LevelRoot/StaticBody2D" unique_id=582193335]
+position = Vector2(0, 648)
+shape = SubResource("WorldBoundaryShape2D_xf5qd")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldRoot/LevelRoot/StaticBody2D" unique_id=904772195]
+position = Vector2(0, 331)
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_xf5qd")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="WorldRoot/LevelRoot/StaticBody2D" unique_id=1163456658]
+position = Vector2(1152, 329)
+rotation = 4.712389
+shape = SubResource("WorldBoundaryShape2D_xf5qd")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="WorldRoot/LevelRoot/StaticBody2D" unique_id=816337367]
+position = Vector2(1152, 0)
+rotation = 3.1415927
+shape = SubResource("WorldBoundaryShape2D_xf5qd")
+
+[node name="EntityRoot" type="Node2D" parent="WorldRoot" unique_id=311291300]
+
+[node name="Timer" type="Timer" parent="WorldRoot/EntityRoot" unique_id=1103729023]
+autostart = true
+
+[node name="ObjectSpawner" type="Node2D" parent="WorldRoot/EntityRoot" unique_id=2002114720]
+position = Vector2(557, 306)
+script = ExtResource("2_wd1uf")
+scene = ExtResource("2_lkrbl")
+metadata/_custom_type_script = "uid://deimna64qrjwd"
+
+[node name="EffectRoot" type="Node2D" parent="WorldRoot" unique_id=155809367]
+
+[node name="HudLayer" type="CanvasLayer" parent="." unique_id=903087891]
+process_mode = 3
+layer = 5
+
+[node name="HudRoot" type="Control" parent="HudLayer" unique_id=938381914]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="DialogueLayer" type="CanvasLayer" parent="." unique_id=808639774]
+layer = 10
+
+[node name="DialogueRoot" type="Control" parent="DialogueLayer" unique_id=377098734]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="TransitionLayer" type="CanvasLayer" parent="." unique_id=695823928]
+process_mode = 3
+layer = 100
+
+[node name="TransitionRoot" parent="TransitionLayer" unique_id=1355111863 instance=ExtResource("2_bxsma")]
+mouse_filter = 2
+
+[node name="DebugLayer" type="CanvasLayer" parent="." unique_id=1889228572]
+process_mode = 3
+layer = 200
+
+[node name="DebugRoot" type="Control" parent="DebugLayer" unique_id=1712264689]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="FPS" type="Label" parent="DebugLayer/DebugRoot" unique_id=1215170066]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("3_bxsma")
+
+[connection signal="timeout" from="WorldRoot/EntityRoot/Timer" to="WorldRoot/EntityRoot/ObjectSpawner" method="_on_timer_timeout"]
+
+[editable path="TransitionLayer/TransitionRoot"]

@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://b23f04xxb8for"]
+
+[ext_resource type="Script" uid="uid://dvx6pcgeb88p4" path="res://Boids/Scripts/area_2d_boid.gd" id="1_1n3gf"]
+[ext_resource type="Texture2D" uid="uid://i5luagfca54g" path="res://Boids/Art/Moth.png" id="2_m04vx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hicoy"]
+atlas = ExtResource("2_m04vx")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1k2e"]
+atlas = ExtResource("2_m04vx")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xf5qd"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_hicoy")
+}, {
+"duration": 10.0,
+"texture": SubResource("AtlasTexture_v1k2e")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xf5qd"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vhmak"]
+radius = 180.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fesfm"]
+
+[node name="Area2DBoid" type="Area2D" unique_id=2089736880]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_1n3gf")
+accelleration = 800.0
+
+[node name="Rays" type="Node2D" parent="." unique_id=998179303]
+
+[node name="Ray0" type="RayCast2D" parent="Rays" unique_id=319587679]
+enabled = false
+
+[node name="Ray1" type="RayCast2D" parent="Rays" unique_id=570000365]
+
+[node name="ray2" type="RayCast2D" parent="Rays" unique_id=946830087]
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=384113877]
+sprite_frames = SubResource("SpriteFrames_xf5qd")
+autoplay = "default"
+frame_progress = 0.6625711
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=959582809]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_xf5qd")
+debug_color = Color(0.99517936, 0, 0.2175209, 0.41960785)
+
+[node name="Vision" type="Area2D" parent="." unique_id=1235618481]
+visible = false
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="VisionShape2D" type="CollisionShape2D" parent="Vision" unique_id=1643263204]
+shape = SubResource("CircleShape2D_vhmak")
+
+[node name="Collider" type="Area2D" parent="." unique_id=1368482041]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collider" unique_id=1737856194]
+shape = SubResource("CircleShape2D_fesfm")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="area_entered" from="Vision" to="." method="_on_vision_area_entered"]
+[connection signal="area_exited" from="Vision" to="." method="_on_vision_area_exited"]
+[connection signal="body_entered" from="Collider" to="." method="_on_collider_body_entered"]
