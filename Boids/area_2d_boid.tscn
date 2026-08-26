@@ -37,6 +37,8 @@ radius = 180.0
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_1n3gf")
+separation = 0.2
+max_speed = 50.0
 accelleration = 800.0
 
 [node name="Rays" type="Node2D" parent="." unique_id=998179303]

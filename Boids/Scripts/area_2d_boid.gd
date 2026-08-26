@@ -21,7 +21,7 @@ var touch_center : Vector2 = Vector2.ZERO
 @export var separation : float = 1
 @export var alignment : float = 1
 
-@export var bias_to : float = 0 # BiasDirection
+@export var bias_to : Vector2 = Vector2.ZERO # BiasDirection
 @export var bias : float = 0 # Strength of Bias
 
 @export var max_speed : float = 200
@@ -54,6 +54,7 @@ func _process(delta: float) -> void:
 		for separation_direction in get_touch_directions():
 			target_direction -= separation_direction*separation*PI
 			#target_direction -= global_position.direction_to(touch_center)*separation
+	target_direction += bias_to*bias
 	
 	direction = direction.move_toward(target_direction,delta*10)
 	#direction = target_direction
@@ -105,6 +106,12 @@ func get_touch_directions() -> Array[Vector2]:
 func move(delta:float):
 	global_position += velocity*delta
 
+func apply_mutation(mutation:Mutation):
+	for prop in mutation.get_property_list():
+		if prop["type"] == typeof(get(prop["name"])):
+			set(prop["name"],mutation.prop)
+	pass
+	
 func _on_vision_area_entered(area: Area2D) -> void:
 	if area is AreaBoid:
 		flock.append(area)
