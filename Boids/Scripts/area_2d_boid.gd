@@ -30,9 +30,11 @@ var touch_center : Vector2 = Vector2.ZERO
 @export var turning_radius : float = PI/2
 
 var process_frame : int = 1
-var deposit 
+static var count : int = 0
+
 func _ready() -> void:
 	flock.append(self)
+	count += 1
 	direction = Vector2.from_angle(randf_range(0,TAU))
 	pass # Replace with function body.
 
@@ -144,3 +146,6 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	mouse_hovered = false
 	pass # Replace with function body.
+
+func _exit_tree() -> void:
+	count -= 1

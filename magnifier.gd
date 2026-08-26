@@ -11,3 +11,11 @@ func _process(delta: float) -> void:
 	global_position = global_position.lerp(get_global_mouse_position(),0.9)
 	#global_position = get_global_mouse_position()
 	pass
+	
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed:
+				visible = true
+			else:
+				visible = false
