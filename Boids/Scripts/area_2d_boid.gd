@@ -28,10 +28,11 @@ var alignment : float
 var bias_to : Vector2 # BiasDirection
 var bias : float  # Strength of Bias
 
+var sep_dir : Vector2
+
 var max_speed : float 
 var accelleration : float 
 var turning_radius : float
-
 var process_frame : int 
 
 signal selected
@@ -67,11 +68,11 @@ func _process(delta: float) -> void:
 	if flock.size() > 0 :
 		target_direction += global_position.direction_to(flock_center)*coherence
 		target_direction += flock_direction*alignment
+	target_direction += bias_to*bias
 	if touching.size() > 0 :
 		for separation_direction in get_touch_directions():
 			target_direction -= separation_direction*separation*PI
 			#target_direction -= global_position.direction_to(touch_center)*separation
-	target_direction += bias_to*bias
 	
 	direction = direction.move_toward(target_direction,delta*10)
 	#direction = target_direction

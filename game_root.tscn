@@ -7,10 +7,18 @@
 [ext_resource type="Script" uid="uid://bybpqbacpjdue" path="res://Debug/fps.gd" id="3_bxsma"]
 [ext_resource type="Script" uid="uid://c8vys066lbq1q" path="res://magnifier.gd" id="4_0o8ui"]
 [ext_resource type="Texture2D" uid="uid://8y71bsglk0sx" path="res://icon.svg" id="4_8gxew"]
+[ext_resource type="Script" uid="uid://ckkksqxri0rhj" path="res://Boids/area_2d_boid_mouse_follower.gd" id="4_aiwur"]
 [ext_resource type="Shader" uid="uid://5a8cp38haq1q" path="res://Magnify.gdshader" id="4_ledqy"]
+[ext_resource type="Script" uid="uid://v14wegtdixei" path="res://Boids/Scripts/boid_mutation.gd" id="5_krhou"]
 [ext_resource type="Script" uid="uid://cp2d14xj78lvn" path="res://Debug/boid_counter.gd" id="9_6t5o2"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xf5qd"]
+
+[sub_resource type="Resource" id="Resource_8tlgu"]
+script = ExtResource("5_krhou")
+color = Color(1, 0.35686275, 1, 1)
+bias = 10.0
+metadata/_custom_type_script = "uid://v14wegtdixei"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8gxew"]
 shader = ExtResource("4_ledqy")
@@ -50,15 +58,58 @@ shape = SubResource("WorldBoundaryShape2D_xf5qd")
 
 [node name="EntityRoot" type="Node2D" parent="WorldRoot" unique_id=311291300]
 
-[node name="Timer" type="Timer" parent="WorldRoot/EntityRoot" unique_id=1103729023]
-autostart = true
+[node name="Area2DBoid" parent="WorldRoot/EntityRoot" unique_id=2089736880 instance=ExtResource("2_lkrbl")]
+position = Vector2(641, 330)
+script = ExtResource("4_aiwur")
+characteristics = SubResource("Resource_8tlgu")
 
-[node name="ObjectSpawner" type="Node2D" parent="WorldRoot/EntityRoot" unique_id=2002114720 node_paths=PackedStringArray("on")]
+[node name="Area2DBoid2" parent="WorldRoot/EntityRoot" unique_id=1222629734 instance=ExtResource("2_lkrbl")]
+position = Vector2(510, 273)
+script = ExtResource("4_aiwur")
+characteristics = SubResource("Resource_8tlgu")
+
+[node name="Area2DBoid3" parent="WorldRoot/EntityRoot" unique_id=1965154284 instance=ExtResource("2_lkrbl")]
+position = Vector2(471, 460)
+script = ExtResource("4_aiwur")
+characteristics = SubResource("Resource_8tlgu")
+
+[node name="Area2DBoid4" parent="WorldRoot/EntityRoot" unique_id=1205257771 instance=ExtResource("2_lkrbl")]
+position = Vector2(631, 542)
+script = ExtResource("4_aiwur")
+characteristics = SubResource("Resource_8tlgu")
+
+[node name="Area2DBoid5" parent="WorldRoot/EntityRoot" unique_id=406354203 instance=ExtResource("2_lkrbl")]
+position = Vector2(744, 382)
+script = ExtResource("4_aiwur")
+characteristics = SubResource("Resource_8tlgu")
+
+[node name="Area2DBoid6" parent="WorldRoot/EntityRoot" unique_id=513083308 instance=ExtResource("2_lkrbl")]
+position = Vector2(676, 166)
+script = ExtResource("4_aiwur")
+characteristics = SubResource("Resource_8tlgu")
+
+[node name="Area2DBoid7" parent="WorldRoot/EntityRoot" unique_id=918054932 instance=ExtResource("2_lkrbl")]
+position = Vector2(590, 441)
+script = ExtResource("4_aiwur")
+characteristics = SubResource("Resource_8tlgu")
+
+[node name="Area2DBoid8" parent="WorldRoot/EntityRoot" unique_id=160860229 instance=ExtResource("2_lkrbl")]
+position = Vector2(713, 482)
+script = ExtResource("4_aiwur")
+characteristics = SubResource("Resource_8tlgu")
+
+[node name="BoidManager" type="Node2D" parent="WorldRoot/EntityRoot" unique_id=2002114720 node_paths=PackedStringArray("on")]
 position = Vector2(557, 306)
 script = ExtResource("2_wd1uf")
 scene = ExtResource("2_lkrbl")
+use_pooling = true
+pool_size = 100
 on = NodePath("..")
 metadata/_custom_type_script = "uid://deimna64qrjwd"
+
+[node name="Timer" type="Timer" parent="WorldRoot/EntityRoot/BoidManager" unique_id=1103729023]
+wait_time = 0.05
+autostart = true
 
 [node name="EffectRoot" type="Node2D" parent="WorldRoot" unique_id=155809367]
 
@@ -125,6 +176,6 @@ script = ExtResource("3_bxsma")
 layout_mode = 2
 script = ExtResource("9_6t5o2")
 
-[connection signal="timeout" from="WorldRoot/EntityRoot/Timer" to="WorldRoot/EntityRoot/ObjectSpawner" method="_on_timer_timeout"]
+[connection signal="timeout" from="WorldRoot/EntityRoot/BoidManager/Timer" to="WorldRoot/EntityRoot/BoidManager" method="_on_timer_timeout"]
 
 [editable path="TransitionLayer/TransitionRoot"]

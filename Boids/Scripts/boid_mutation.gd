@@ -7,6 +7,9 @@ class_name BoidCharacteristics
 @export var separation : float = 0.2
 @export var alignment : float = 1
 
+@export var vision_radius : float = 180
+@export var protected_radius : float = 30
+
 @export var bias_to : Vector2 = Vector2.ZERO # BiasDirection
 @export var bias : float = 0 # Strength of Bias
 

@@ -9,6 +9,7 @@ class_name ObjectSpawner
 
 var pool:Array[Node] = []
 
+
 func _ready() -> void:
 	if on == null:
 		on = get_tree().current_scene
