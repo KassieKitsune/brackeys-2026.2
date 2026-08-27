@@ -1,6 +1,8 @@
 extends Area2D
 class_name AreaBoid
 
+static var count : int = 0
+
 var velocity : Vector2 = Vector2.ZERO
 var flock: Array[AreaBoid] = []
 var touching : Array [AreaBoid] = []
@@ -11,28 +13,43 @@ var mouse_hovered : bool = false
 @onready var ray_1: RayCast2D = $Rays/Ray1
 @onready var ray_2: RayCast2D = $Rays/ray2
 
+@export var debug : bool = false
+@export var direction : Vector2 = Vector2.ZERO
+@export var characteristics : BoidCharacteristics
+
 var flock_direction : Vector2 = Vector2.ZERO
 var flock_center : Vector2 = Vector2.ZERO
 var touch_center : Vector2 = Vector2.ZERO
 
-@export var debug : bool = false
+var coherence : float
+var separation : float
+var alignment : float
 
-@export var coherence : float = 1
-@export var separation : float = 1
-@export var alignment : float = 1
+var bias_to : Vector2 # BiasDirection
+var bias : float  # Strength of Bias
 
-@export var bias_to : Vector2 = Vector2.ZERO # BiasDirection
-@export var bias : float = 0 # Strength of Bias
+var max_speed : float 
+var accelleration : float 
+var turning_radius : float
 
-@export var max_speed : float = 200
-@export var accelleration : float = 50
-@export var direction : Vector2 = Vector2.ZERO
-@export var turning_radius : float = PI/2
+var process_frame : int 
 
-var process_frame : int = 1
-static var count : int = 0
+signal selected
 
 func _ready() -> void:
+	coherence = characteristics.coherence
+	separation = characteristics.separation
+	alignment = characteristics.alignment
+
+	bias_to = characteristics.bias_to # BiasDirection
+	bias = characteristics.bias  # Strength of Bias
+
+	max_speed = characteristics.max_speed
+	accelleration = characteristics.accelleration
+	turning_radius = characteristics.turning_radius
+	
+	$Sprite2D.modulate = characteristics.color
+	
 	flock.append(self)
 	count += 1
 	direction = Vector2.from_angle(randf_range(0,TAU))
@@ -106,12 +123,12 @@ func get_touch_directions() -> Array[Vector2]:
 func move(delta:float):
 	global_position += velocity*delta
 
-func apply_mutation(mutation:Mutation):
+func apply_mutation(mutation:BoidCharacteristics):
 	for prop in mutation.get_property_list():
 		if prop["type"] == typeof(get(prop["name"])):
 			set(prop["name"],mutation.prop)
 	pass
-	
+
 func _on_vision_area_entered(area: Area2D) -> void:
 	if area is AreaBoid:
 		flock.append(area)

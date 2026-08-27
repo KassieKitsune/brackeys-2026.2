@@ -1,7 +1,12 @@
 [gd_scene format=3 uid="uid://b23f04xxb8for"]
 
 [ext_resource type="Script" uid="uid://dvx6pcgeb88p4" path="res://Boids/Scripts/area_2d_boid.gd" id="1_1n3gf"]
+[ext_resource type="Script" uid="uid://v14wegtdixei" path="res://Boids/Scripts/boid_mutation.gd" id="2_hicoy"]
 [ext_resource type="Texture2D" uid="uid://i5luagfca54g" path="res://Boids/Art/Moth.png" id="2_m04vx"]
+
+[sub_resource type="Resource" id="Resource_m04vx"]
+script = ExtResource("2_hicoy")
+metadata/_custom_type_script = "uid://v14wegtdixei"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hicoy"]
 atlas = ExtResource("2_m04vx")
@@ -37,9 +42,7 @@ radius = 180.0
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_1n3gf")
-separation = 0.2
-max_speed = 50.0
-accelleration = 800.0
+characteristics = SubResource("Resource_m04vx")
 
 [node name="Rays" type="Node2D" parent="." unique_id=998179303]
 
